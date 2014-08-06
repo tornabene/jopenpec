@@ -6,7 +6,11 @@
 	<version>2.0.0-SNAPSHOT</version>
 	<name>jopenpec</name>
 	<packaging>jar</packaging>
-
+	<scm>
+		<connection>https://github.com/tornabene/jopenpec.git</connection>
+		<developerConnection>https://github.com/tornabene/jopenpec.git</developerConnection>
+		<url>https://github.com/tornabene/jopenpec </url>
+	</scm>
 	<distributionManagement>
 		<repository>
 			<id>deployment</id>
@@ -50,12 +54,8 @@
 			<version>1.3.3</version>
 		</dependency>
 
-<!-- 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>1.7.7</version>
-		</dependency>
- -->
+		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>jcl-over-slf4j</artifactId> 
+			<version>1.7.7</version> </dependency> -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
