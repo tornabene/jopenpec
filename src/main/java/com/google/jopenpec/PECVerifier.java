@@ -47,7 +47,7 @@ public final class PECVerifier {
 	Provider bcprov;
 	JcaSimpleSignerInfoVerifierBuilder verifier;
 	JcaX509CertificateConverter jcaX509CertificateConverter;
-	
+
 	public PECVerifier() {
 		this.bcprov = Security.getProvider("BC");
 		if (this.bcprov == null) {
@@ -58,7 +58,7 @@ public final class PECVerifier {
 		this.verifier = new JcaSimpleSignerInfoVerifierBuilder();
 		this.verifier.setProvider(bcprov);
 
-		this.jcaX509CertificateConverter = new  JcaX509CertificateConverter();
+		this.jcaX509CertificateConverter = new JcaX509CertificateConverter();
 		this.jcaX509CertificateConverter.setProvider(bcprov);
 
 		if (!Init.isInitialized()) {
@@ -66,8 +66,8 @@ public final class PECVerifier {
 		}
 	}
 
-	private Set<X509Certificate> verifySignature(
-			final SMIMESignedParser parser) throws Exception {
+	private Set<X509Certificate> verifySignature(final SMIMESignedParser parser)
+			throws Exception {
 		final Set<X509Certificate> certificates = new HashSet<X509Certificate>();
 
 		final Store certs = parser.getCertificates();
@@ -76,17 +76,12 @@ public final class PECVerifier {
 		final Store crls = parser.getCRLs();
 		verify(parser, certificates, crls);
 
-
 		return certificates;
 	}
 
-  
 	private void debugPring(SignerInformation castingSignerInformation2) {
-		System.out.println("------------>>castingSignerInformation:"
-				+ castingSignerInformation2.getSID().getIssuer());
-		System.out.println("------------>>getSubjectKeyIdentifier:"
-				+ castingSignerInformation2.getSID()
-						.getSubjectKeyIdentifier());
+		//System.out.println("------------>>castingSignerInformation:" + castingSignerInformation2.getSID().getIssuer());
+		//System.out.println("------------>>getSubjectKeyIdentifier:"  + castingSignerInformation2.getSID().getSubjectKeyIdentifier());
 	}
 
 	private void verify(final SMIMESignedParser parser,
@@ -94,31 +89,26 @@ public final class PECVerifier {
 			throws CMSException, OperatorCreationException,
 			CertificateException, Exception {
 		final SignerInformationStore signerInfos = parser.getSignerInfos();
-
-		System.out.println("signerInfos:" + signerInfos);
-		System.out.println("certs:" + store);
-
 		final Collection<SignerInformation> signers = signerInfos.getSigners();
 		for (SignerInformation signer : signers) {
-			System.out.println(" signer.getSID().getIssuer() :"
-					+ signer.getSID().getIssuer());
+			//System.out.println(" signer.getSID().getIssuer() :" 	+ signer.getSID().getIssuer());
 
 			final Collection<X509CertificateHolder> certCollection = store
 					.getMatches(signer.getSID());
 
 			for (X509CertificateHolder x509CertificateHolder : certCollection) {
 
-
 				SignerInformationVerifier singInfoVer = verifier
 						.build(x509CertificateHolder);
 
-				System.out.println("singInfoVer--------------:" + singInfoVer);
-				X509Certificate x509Certificate = jcaX509CertificateConverter.getCertificate(x509CertificateHolder);
-				System.out.println("x509Certificate:"+x509Certificate);
-				 
+				//System.out.println("singInfoVer--------------:" + singInfoVer);
+				X509Certificate x509Certificate = jcaX509CertificateConverter
+						.getCertificate(x509CertificateHolder);
+				//System.out.println("x509Certificate:" + x509Certificate);
+
 				x509Certificate.checkValidity();
-				
-				if ( !signer.verify(singInfoVer)  ) {
+
+				if (!signer.verify(singInfoVer)) {
 					throw new Exception("signature invalid");
 				}
 				certificates.add(x509Certificate);
@@ -127,46 +117,59 @@ public final class PECVerifier {
 	}
 
 	public PECMessageInfos verifyAnalizePEC(final InputStream imailstream,
-			final OutputStream contenuto) throws Exception {
+			final OutputStream contenuto) {
+
 		final Properties props = System.getProperties();
 		final Session session = Session.getDefaultInstance(props, null);
 		Document document = null;
 		PECBodyParts bodyMessage = null;
+		Boolean esito = false;
 		Set<X509Certificate> signatures = null;
-
+		try {
 		final MimeMessage msg = new MimeMessage(session, imailstream);
+	
+			if (msg.isMimeType("multipart/signed")
+					|| msg.isMimeType("application/pkcs7-mime")) {
+				DigestCalculatorProvider digestCalProv = new BcDigestCalculatorProvider();
+				final SMIMESignedParser s = new SMIMESignedParser(
+						digestCalProv, (MimeMultipart) msg.getContent());
 
-		if (msg.isMimeType("multipart/signed")
-				|| msg.isMimeType("application/pkcs7-mime")) {
-			DigestCalculatorProvider digestCalProv = new BcDigestCalculatorProvider();
-			final SMIMESignedParser s = new SMIMESignedParser(digestCalProv,
-					(MimeMultipart) msg.getContent());
+				document = extractDatiCertXML(s);
+				bodyMessage = extractBodyMessage(s.getContent());
+				signatures = verifySignature(s);
 
-			document = extractDatiCertXML(s);
-			bodyMessage = extractBodyMessage(s.getContent());
-			signatures = verifySignature(s);
+				if ((bodyMessage.getBodyTextHTML() != null)
+						&& (bodyMessage.getBodyTextHTML().getInputStream() != null)) {
+					final InputStream istream = bodyMessage.getBodyTextHTML()
+							.getInputStream();
+					IOUtils.copy(istream, contenuto);
+				} else if ((bodyMessage.getBodyTextPlain() != null)
+						&& (bodyMessage.getBodyTextPlain().getInputStream() != null)) {
+					final InputStream istream = bodyMessage.getBodyTextPlain()
+							.getInputStream();
 
-			if ((bodyMessage.getBodyTextHTML() != null)
-					&& (bodyMessage.getBodyTextHTML().getInputStream() != null)) {
-				final InputStream istream = bodyMessage.getBodyTextHTML()
-						.getInputStream();
-				IOUtils.copy(istream, contenuto);
-			} else if ((bodyMessage.getBodyTextPlain() != null)
-					&& (bodyMessage.getBodyTextPlain().getInputStream() != null)) {
-				final InputStream istream = bodyMessage.getBodyTextPlain()
-						.getInputStream();
-				IOUtils.copy(istream, contenuto);
+					IOUtils.copy(istream, contenuto);
+
+				}
+
+				esito = true;
+
+			} else {
+				throw new Exception("NO Pec [" + msg.getContentType() + "]");
 			}
 
-		} else {
-			final String message = "MimeType unknown [" + msg.getContentType()
-					+ "]";
-			logger.info(message);
-		}
+			final PECMessageInfos docVer = new PECMessageInfos(signatures,
+					document, bodyMessage, esito);
+			return docVer;
 
-		final PECMessageInfos docVer = new PECMessageInfos(signatures,
-				document, bodyMessage);
-		return docVer;
+		} catch (Exception e) {
+			final PECMessageInfos docVer = new PECMessageInfos(signatures,
+					document, bodyMessage, esito);
+			docVer.setException(e);
+			return docVer;
+		}  
+
+		
 
 	}
 
@@ -185,25 +188,25 @@ public final class PECVerifier {
 	private Document extractDatiCertXML(final SMIMESignedParser s)
 			throws Exception {
 		final MimeBodyPart mimePart = s.getContent();
-		System.out.println("mimePart:" + mimePart);
+		//System.out.println("mimePart:" + mimePart);
 		final DataHandler data = mimePart.getDataHandler();
-		System.out.println("data:" + data);
+		//System.out.println("data:" + data);
 
 		final MimeMultipart multiPart = (MimeMultipart) data.getContent();
-		System.out.println("multiPart:" + multiPart);
+		//System.out.println("multiPart:" + multiPart);
 
 		if (multiPart.getCount() < 1) {
 			throw new MessagingException("Missing attachments");
 		}
 		final BodyPart bodyCert = multiPart.getBodyPart(1);
-		System.out.println("bodyCert:" + bodyCert);
+		//System.out.println("bodyCert:" + bodyCert);
 
 		final DataHandler dataCert = bodyCert.getDataHandler();
-		System.out.println("dataCert.getContent():" + dataCert.getContent());
+		//System.out.println("dataCert.getContent():" + dataCert.getContent());
 
 		final DataSource dataSourceCert = dataCert.getDataSource();
 
-		System.out.println("dataSourceCert():" + dataSourceCert);
+		//System.out.println("dataSourceCert():" + dataSourceCert);
 
 		final InputStream idataCert = dataSourceCert.getInputStream();
 

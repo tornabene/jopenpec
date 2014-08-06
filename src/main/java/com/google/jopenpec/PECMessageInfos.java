@@ -9,12 +9,33 @@ public class PECMessageInfos {
 	private Set<X509Certificate> signatures;
 	private Document certificate;
 	private PECBodyParts bodyParts;
+	
+	private Exception exception;
+	
+	public Exception getException() {
+		return exception;
+	}
 
+	public void setException(Exception exception) {
+		this.exception = exception;
+	}
+
+	public Boolean getEsito() {
+		return esito;
+	}
+
+	public void setEsito(Boolean esito) {
+		this.esito = esito;
+	}
+
+	private Boolean esito;
+	
 	public PECMessageInfos(Set<X509Certificate> signatures, Document certificate,
-			PECBodyParts bodyParts) {
+			PECBodyParts bodyParts,Boolean esito) {
 		this.signatures = signatures;
 		this.certificate = certificate;
 		this.bodyParts = bodyParts;
+		this.esito = esito;
 
 	}
 

@@ -36,14 +36,15 @@ public class TestPKCS7 {
 		 
 		PECVerifier pecVerifier = new PECVerifier();
 		PECMessageInfos info = pecVerifier.verifyAnalizePEC(postacert, System.out);
-	 	
-		for (X509Certificate c : info.getSignatures() ) {
-			System.out.println("test2-------------" );
-			System.out.println(c.getIssuerDN() );
-			System.out.println(c.getSubjectDN()   );
-		}
-		
-		System.out.println("info.getCertificate()-------------" +info.getCertificate());
+			if( info.getEsito()){
+			for (X509Certificate c : info.getSignatures() ) {
+				System.out.println("test2-------------" );
+				System.out.println(c.getIssuerDN() );
+				System.out.println(c.getSubjectDN()   );
+			}
+		}else
+			System.out.println( info.getException().getMessage() );
+			
 		
 	}
 	 
