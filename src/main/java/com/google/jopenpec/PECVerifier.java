@@ -1,7 +1,6 @@
 package com.google.jopenpec;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.CertificateException;
@@ -22,7 +21,6 @@ import javax.mail.internet.MimeMultipart;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.xml.security.Init;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -116,8 +114,7 @@ public final class PECVerifier {
 		}
 	}
 
-	public PECMessageInfos verifyAnalizePEC(final InputStream imailstream,
-			final OutputStream contenuto) {
+	public PECMessageInfos verifyAnalizePEC(final InputStream imailstream ) {
 
 		final Properties props = System.getProperties();
 		final Session session = Session.getDefaultInstance(props, null);
@@ -138,19 +135,19 @@ public final class PECVerifier {
 				bodyMessage = extractBodyMessage(s.getContent());
 				signatures = verifySignature(s);
 
-				if ((bodyMessage.getBodyTextHTML() != null)
-						&& (bodyMessage.getBodyTextHTML().getInputStream() != null)) {
-					final InputStream istream = bodyMessage.getBodyTextHTML()
-							.getInputStream();
-					IOUtils.copy(istream, contenuto);
-				} else if ((bodyMessage.getBodyTextPlain() != null)
-						&& (bodyMessage.getBodyTextPlain().getInputStream() != null)) {
-					final InputStream istream = bodyMessage.getBodyTextPlain()
-							.getInputStream();
-
-					IOUtils.copy(istream, contenuto);
-
-				}
+//				if ((bodyMessage.getBodyTextHTML() != null)
+//						&& (bodyMessage.getBodyTextHTML().getInputStream() != null)) {
+//					final InputStream istream = bodyMessage.getBodyTextHTML()
+//							.getInputStream();
+//					IOUtils.copy(istream, contenuto);
+//				} else if ((bodyMessage.getBodyTextPlain() != null)
+//						&& (bodyMessage.getBodyTextPlain().getInputStream() != null)) {
+//					final InputStream istream = bodyMessage.getBodyTextPlain()
+//							.getInputStream();
+//
+//				 IOUtils.copy(istream, contenuto);
+//
+//				}
 
 				esito = true;
 
