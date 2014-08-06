@@ -3,7 +3,7 @@
 	<groupId>com.googlecode.jopenpec</groupId>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>jopenpec</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>2.0.0-RELEASE</version>
 	<name>jopenpec</name>
 	<packaging>jar</packaging>
 
