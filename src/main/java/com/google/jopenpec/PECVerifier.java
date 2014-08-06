@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Provider;
 import java.security.Security;
-import java.security.cert.CertStore;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
@@ -24,17 +23,22 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.Init;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
+import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.mail.smime.SMIMESignedParser;
+import org.bouncycastle.operator.DigestCalculatorProvider;
+import org.bouncycastle.operator.bc.BcDigestCalculatorProvider;
+import org.bouncycastle.util.Store;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 public final class PECVerifier {
-	private static Logger logger = Logger.getLogger(PECVerifier.class);
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	public PECVerifier() {
 		Provider bcprov = Security.getProvider("BC");
@@ -51,15 +55,14 @@ public final class PECVerifier {
 	@SuppressWarnings("unchecked")
 	private Set<Certificate> verify(final SMIMESignedParser s) throws Exception {
 		final Set<Certificate> certificates = new HashSet<Certificate>();
-		final CertStore certs = s.getCertificatesAndCRLs("Collection", "BC");
+
+		final Store certs = s.getCertificates();
 		final SignerInformationStore signers = s.getSignerInfos();
 		final Collection<SignerInformation> c = signers.getSigners();
 		for (SignerInformation signer : c) {
-			final Collection<X509Certificate> certCollection = (Collection<X509Certificate>) certs
-					.getCertificates(signer.getSID());
-			final X509Certificate cert = (X509Certificate) certCollection
-					.iterator().next();
-			if (!signer.verify(cert.getPublicKey(), "BC")) {
+			final Collection<X509Certificate> certCollection = certs.getMatches(signer.getSID());
+			final X509Certificate cert =  certCollection.iterator().next();
+			if (!signer.verify(new JcaSimpleSignerInfoVerifierBuilder().setProvider("BC").build(cert))) {
 				throw new Exception("signature invalid");
 			}
 			certificates.add(cert);
@@ -76,10 +79,11 @@ public final class PECVerifier {
 		PECBodyParts bodyMessage = null;
 		Set<Certificate> signatures = null;
 		final MimeMessage msg = new MimeMessage(session, imailstream);
+		
 		if (msg.isMimeType("multipart/signed")) {
-			final SMIMESignedParser s = new SMIMESignedParser(
-					(MimeMultipart) msg.getContent());
-
+			DigestCalculatorProvider digestCalProv = new BcDigestCalculatorProvider();
+			final SMIMESignedParser s = new SMIMESignedParser( digestCalProv, (MimeMultipart) msg.getContent());
+			
 			document = PECVerifier.extractXMLCert(s);
 			bodyMessage = PECVerifier.extractBodyMessage(s.getContent());
 			signatures = verify(s);
@@ -102,10 +106,7 @@ public final class PECVerifier {
 			logger.info(message);
 		}
 
-		final PECMessageInfos docVer = new PECMessageInfos();
-		docVer.signatures = signatures;
-		docVer.certificate = document;
-		docVer.bodyParts = bodyMessage;
+		final PECMessageInfos docVer = new PECMessageInfos(signatures,document,bodyMessage);
 		return docVer;
 
 	}
