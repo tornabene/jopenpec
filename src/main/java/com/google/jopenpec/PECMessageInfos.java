@@ -1,16 +1,16 @@
 package com.google.jopenpec;
 
-import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
 import java.util.Set;
 
 import org.w3c.dom.Document;
 
 public class PECMessageInfos {
-	private Set<Certificate> signatures;
+	private Set<X509Certificate> signatures;
 	private Document certificate;
 	private PECBodyParts bodyParts;
 
-	public PECMessageInfos(Set<Certificate> signatures, Document certificate,
+	public PECMessageInfos(Set<X509Certificate> signatures, Document certificate,
 			PECBodyParts bodyParts) {
 		this.signatures = signatures;
 		this.certificate = certificate;
@@ -18,11 +18,11 @@ public class PECMessageInfos {
 
 	}
 
-	public Set<Certificate> getSignatures() {
+	public Set<X509Certificate> getSignatures() {
 		return signatures;
 	}
 
-	public void setSignatures(Set<Certificate> signatures) {
+	public void setSignatures(Set<X509Certificate> signatures) {
 		this.signatures = signatures;
 	}
 

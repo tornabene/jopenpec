@@ -1,0 +1,177 @@
+Return-Path: <cavallaro.francesco@pec.it>
+Delivered-To: cavallaro.francesco@pec.it
+Received: from smtpecn3.pec.ad.aruba.it (localhost [127.0.0.1])
+	by smtpecn3.pec.ad.aruba.it (lmtpd) with LMTP id 19542.002;
+	Wed,  6 Aug 2014 12:01:04 +0200 (CEST)
+Received: from pec.it (unknown [10.10.0.14])	(using TLSv1 with cipher
+ DHE-RSA-AES256-SHA (256/256 bits))	(No client certificate requested)	by
+ smtps.pec.aruba.it (Postfix) with ESMTPSA id 66DCA1DC565	for
+ <cavallaro.francesco@pec.it>; Wed,  6 Aug 2014 12:00:12 +0200 (CEST)
+Subject: POSTA CERTIFICATA: test
+X-Riferimento-Message-ID: <N9VQGC$B2254FE9FD0BA8E3C2A66F0F7F17D574@pec.it>
+Date: Wed, 6 Aug 2014 12:01:04 +0200
+Message-ID: <opec275.20140806120104.16138.09.3.17@pec.aruba.it>
+Reply-To: cavallaro.francesco@pec.it
+X-Trasporto: posta-certificata
+To: cavallaro.francesco@pec.it
+From: "Per conto di: cavallaro.francesco@pec.it" <posta-certificata@pec.aruba.it>
+X-Tiporicevuta: completa
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg=sha1; boundary="----4DA5192BE7C8E047F0F1D987320A81CA"
+
+This is an S/MIME signed message
+
+------4DA5192BE7C8E047F0F1D987320A81CA
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----------=_1407319264-16138-56"
+
+This is a multi-part message in MIME format...
+
+------------=_1407319264-16138-56
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+--Questo =E8 un Messaggio di Posta Certificata--
+
+Il giorno 06/08/2014 alle ore 12:01:04 (+0200) il messaggio con Oggetto
+"test" =E8 stato inviato dal mittente "cavallaro.francesco@pec.it"
+e indirizzato a:
+cavallaro.francesco@pec.it
+Il messaggio originale =E8 incluso in allegato, per aprirlo cliccare sul fi=
+le "postacert.eml" (nella webmail o in alcuni client di posta l'allegato po=
+trebbe avere come nome l'oggetto del messaggio originale).
+L'allegato daticert.xml contiene informazioni di servizio sulla trasmissione
+L'identificativo univoco di questo messaggio =E8: opec275.20140806120104.16=
+138.09.3.17@pec.aruba.it
+
+------------=_1407319264-16138-56
+Content-Type: application/xml; name="daticert.xml"
+Content-Disposition: inline; filename="daticert.xml"
+Content-Transfer-Encoding: base64
+
+PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHBvc3Rh
+Y2VydCB0aXBvPSJwb3N0YS1jZXJ0aWZpY2F0YSIgZXJyb3JlPSJuZXNzdW5v
+Ij4KICAgIDxpbnRlc3RhemlvbmU+CiAgICAgICAgPG1pdHRlbnRlPmNhdmFs
+bGFyby5mcmFuY2VzY29AcGVjLml0PC9taXR0ZW50ZT4KICAgICAgICA8ZGVz
+dGluYXRhcmkgdGlwbz0iY2VydGlmaWNhdG8iPmNhdmFsbGFyby5mcmFuY2Vz
+Y29AcGVjLml0PC9kZXN0aW5hdGFyaT4KICAgICAgICA8cmlzcG9zdGU+Y2F2
+YWxsYXJvLmZyYW5jZXNjb0BwZWMuaXQ8L3Jpc3Bvc3RlPgogICAgICAgIDxv
+Z2dldHRvPnRlc3Q8L29nZ2V0dG8+CiAgICA8L2ludGVzdGF6aW9uZT4KICAg
+IDxkYXRpPgogICAgICAgIDxnZXN0b3JlLWVtaXR0ZW50ZT5BUlVCQSBQRUMg
+Uy5wLkEuPC9nZXN0b3JlLWVtaXR0ZW50ZT4KICAgICAgICA8ZGF0YSB6b25h
+PSIrMDIwMCI+CiAgICAgICAgICAgIDxnaW9ybm8+MDYvMDgvMjAxNDwvZ2lv
+cm5vPgogICAgICAgICAgICA8b3JhPjEyOjAxOjA0PC9vcmE+CiAgICAgICAg
+PC9kYXRhPgogICAgICAgIDxpZGVudGlmaWNhdGl2bz5vcGVjMjc1LjIwMTQw
+ODA2MTIwMTA0LjE2MTM4LjA5LjMuMTdAcGVjLmFydWJhLml0PC9pZGVudGlm
+aWNhdGl2bz4KICAgICAgICA8bXNnaWQ+Jmx0O045VlFHQyRCMjI1NEZFOUZE
+MEJBOEUzQzJBNjZGMEY3RjE3RDU3NEBwZWMuaXQmZ3Q7PC9tc2dpZD4KICAg
+ICAgICA8cmljZXZ1dGEgdGlwbz0iY29tcGxldGEiIC8+CiAgICA8L2RhdGk+
+CjwvcG9zdGFjZXJ0Pgo=
+
+------------=_1407319264-16138-56
+Content-Type: message/rfc822; name="postacert.eml"
+Content-Disposition: inline; filename="postacert.eml"
+Content-Transfer-Encoding: 7bit
+
+Received: from pec.it (unknown [10.10.0.14])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtps.pec.aruba.it (Postfix) with ESMTPSA id 66DCA1DC565
+	for <cavallaro.francesco@pec.it>; Wed,  6 Aug 2014 12:00:12 +0200 (CEST)
+Date: Wed,  6 Aug 2014 12:00:12 +0200
+Subject: test
+MIME-Version: 1.0
+X-Sensitivity: 3
+Content-Type: multipart/alternative;
+	boundary="_=__=_XaM3_.1407319212.2A.317750.42.26246.52.42.007.1048733259"
+From: "cavallaro\.francesco" <cavallaro.francesco@pec.it>
+To: cavallaro.francesco@pec.it
+X-XaM3-API-Version: V3(R2)
+X-TipoRicevuta: completa
+X-SenderIP: 83.211.6.49
+Message-ID: <opec275.20140806120104.16138.09.3.17@pec.aruba.it>
+X-Riferimento-Message-ID: <N9VQGC$B2254FE9FD0BA8E3C2A66F0F7F17D574@pec.it>
+
+
+--_=__=_XaM3_.1407319212.2A.317750.42.26246.52.42.007.1048733259
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+wqB0ZXN0IHBpcHBv
+
+
+--_=__=_XaM3_.1407319212.2A.317750.42.26246.52.42.007.1048733259
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+CjxkaXYgY2xhc3M9InhhbV9tc2dfY2xhc3MiPgo8ZGl2IHN0eWxlPSJmb250OiBub3JtYWwg
+MTNweCBBcmlhbDsgY29sb3I6cmdiKDAsIDAsIDApOyI+Jm5ic3A7dGVzdCBwaXBwbzwvZGl2
+Pgo8L2Rpdj4K
+
+
+--_=__=_XaM3_.1407319212.2A.317750.42.26246.52.42.007.1048733259--
+
+
+------------=_1407319264-16138-56--
+
+------4DA5192BE7C8E047F0F1D987320A81CA
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIJqwYJKoZIhvcNAQcCoIIJnDCCCZgCAQExCzAJBgUrDgMCGgUAMAsGCSqGSIb3
+DQEHAaCCB9kwggOFMIICbaADAgECAgINETANBgkqhkiG9w0BAQUFADBoMQswCQYD
+VQQGEwJJVDEQMA4GA1UECgwHRGlnaXRQQTExMC8GA1UECwwoVWZmaWNpbyBpbnRl
+cm9wZXJhYmlsaXRhJyBlIGNvb3BlcmF6aW9uZTEUMBIGA1UEAwwLRGlnaXRQQSBD
+QTEwHhcNMTQwMjEwMTIzMjIxWhcNMTcwMjEwMTIzMjIxWjBOMSQwIgYDVQQDDBtQ
+b3N0YSBDZXJ0aWZpY2F0YSBBUlVCQSBQRUMxGTAXBgNVBAoMEEFSVUJBIFBFQyBT
+LnAuQS4xCzAJBgNVBAYTAklUMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQ
+rsnZEQpkz8I2NTmt2Jj9QJIvGpKG8r6hUX0YaYGSolucoBrbVTl7IZ+LYyo+cXXu
+e3QcHFAMeO3y0RMsCSDimjDOLDPyN4VXdntoqgwHfauZHgUbIwdOP/7pIXOQRdgb
+Zvm9wKUw8f3OIMNOYek87Bv6+STB9ufoNYCkX6DMhwIDAQABo4HWMIHTMAkGA1Ud
+EwQCMAAwTgYDVR0gBEcwRTBDBgYrTBADAQEwOTA3BggrBgEFBQcCARYraHR0cDov
+L3d3dy5kaWdpdHBhLmdvdi5pdC9tYW51YWxpLW9wZXJhdGl2aTApBgNVHREEIjAg
+gR5wb3N0YS1jZXJ0aWZpY2F0YUBwZWMuYXJ1YmEuaXQwCwYDVR0PBAQDAgeAMB8G
+A1UdIwQYMBaAFP4ityTjTyfZBeDMuL3e9I0j/S/ZMB0GA1UdDgQWBBRM+kCtNZga
+awBvvT5WmMwpANppHjANBgkqhkiG9w0BAQUFAAOCAQEARAIko1J7lpwlybgntB12
+HSIb4ojfs6GW23IxBqURpI1HMYejjeObEsObqd4/etCLoTb+i2n7JT7FOi60mXDT
+Lb/+8jzDBYjvMzqq4DAq7wiOhC5LqOPYX4Yk2N1MEBUXFBNhMo4Th3ACfbuSDPf9
+sQqHIljHYlMxX+CuHyJQbhDPJDjJtIFOACc6GmZXrPGfdrR2zDeOzONTHpdNOluW
+2SdfAbHG76+WKQTSLE6N8MrD6SXVrW+EFb3rE6gMiHorwlhJ7ab3oY8gUZHepoqn
+u9foEeNi1pSES53gFtRZ+VZhrCB2VgYF3+STt3gUIk6ljlud6jErVidFQP5q4M9K
+DzCCBEwwggM0oAMCAQICBAcnSKAwDQYJKoZIhvcNAQEFBQAwWjELMAkGA1UEBhMC
+SUUxEjAQBgNVBAoTCUJhbHRpbW9yZTETMBEGA1UECxMKQ3liZXJUcnVzdDEiMCAG
+A1UEAxMZQmFsdGltb3JlIEN5YmVyVHJ1c3QgUm9vdDAeFw0xMTAxMTQxNjI5NTZa
+Fw0xODAxMTQxNjI4NTBaMGgxCzAJBgNVBAYTAklUMRAwDgYDVQQKDAdEaWdpdFBB
+MTEwLwYDVQQLDChVZmZpY2lvIGludGVyb3BlcmFiaWxpdGEnIGUgY29vcGVyYXpp
+b25lMRQwEgYDVQQDDAtEaWdpdFBBIENBMTCCASIwDQYJKoZIhvcNAQEBBQADggEP
+ADCCAQoCggEBAJmfpChKI1RHcuB986uv558PijbQoLI1r36gz8r4WIFqXVAtbeXd
+HV3yo3ov4VdVkgcV99r6926cDm/ftDNTS360CLTD51WKwn2Wzzo62CJL0pnQmYte
+VItGTS0sP37mMo9HleJHiZdE3YVJvVmINvEN8YOny8bKe1HexMuSlfCTvQn8a6sC
+Gln6iSzbAO37vd1SCLlUlhYN6GD0Ges9wcSN4Ih0Qzjn34IH50l7frZU1iXkESXc
+LtcIB4ikjVxVHZK47rqitgdp3O7Rs51s3oAfEANoi4HTAdjWopREXisrvmfHRrwm
+3U5FDmwtVam+2PjsL7FLzpb9t1JWP08cFXcCAwEAAaOCAQowggEGMBIGA1UdEwEB
+/wQIMAYBAf8CAQAwXAYDVR0gBFUwUzBIBgkrBgEEAbE+AQAwOzA5BggrBgEFBQcC
+ARYtaHR0cDovL2N5YmVydHJ1c3Qub21uaXJvb3QuY29tL3JlcG9zaXRvcnkuY2Zt
+MAcGBStMEAMBMA4GA1UdDwEB/wQEAwIBBjAfBgNVHSMEGDAWgBTlnVkwgkdYzKz6
+CFQ2hns6tQRN8DBCBgNVHR8EOzA5MDegNaAzhjFodHRwOi8vY2RwMS5wdWJsaWMt
+dHJ1c3QuY29tL0NSTC9PbW5pcm9vdDIwMjUuY3JsMB0GA1UdDgQWBBT+Irck408n
+2QXgzLi93vSNI/0v2TANBgkqhkiG9w0BAQUFAAOCAQEAJm1E4NZN66e8hw1MTc8L
+efwQzCL8ywqpEmN/5VMO7NVmL4rCya8BaAU+9oMsD61XH8TPPpCzFCb0Paqh0mkO
+tFFtFYVM95GU7xIi2tzcaqTVYMbPn3UnLJF+iqfItcYvcH9k7lT5iMs9BpSOL5PF
+4HUgeAThqNDT/xMNXPvTVXlNH5OWXkqgcy+mngAdapannx1XJ3MFeOwyJjTi+Yoh
++E+ODbVI03aacRtwlKySdSd44FjN4oQjkA7eVzkbIcyPZIHyaid+b5dYQSUPLvTQ
+FbKAoeXS+iyZmN6yo9uVXwkXwJGGRIopRssJVMJujmwqkTheypl7rp4LotOYLoci
+yzGCAZowggGWAgEBMG4waDELMAkGA1UEBhMCSVQxEDAOBgNVBAoMB0RpZ2l0UEEx
+MTAvBgNVBAsMKFVmZmljaW8gaW50ZXJvcGVyYWJpbGl0YScgZSBjb29wZXJhemlv
+bmUxFDASBgNVBAMMC0RpZ2l0UEEgQ0ExAgINETAJBgUrDgMCGgUAoIGDMBgGCSqG
+SIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTE0MDgwNjEwMDEw
+NFowIwYJKoZIhvcNAQkEMRYEFKLDwON14pFkr7uj4sZbp4CJn6MxMCQGCSqGSIb3
+DQEJDzEXMBUwCgYIKoZIhvcNAwcwBwYFKw4DAgcwDQYJKoZIhvcNAQEBBQAEgYDA
+7ScGNOJI0QxeqWTrPGxthYboT+2RlQOds66VbkNFOZk/Zhg8EKv4D8tZZuCehel3
+twPmWuUBz/2Dllj/aw5T4U3LEtouPzzK/oHRbZHeBleSF8otBvgYrDXJ1IpMFDAf
+kzR2GTMgs1ukiVZYN3SwwAVmShzgyfH2APepCk8Xpw==
+
+------4DA5192BE7C8E047F0F1D987320A81CA--
+
