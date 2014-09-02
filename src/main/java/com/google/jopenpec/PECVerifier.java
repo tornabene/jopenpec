@@ -40,14 +40,14 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-public final class PECVerifier {
+public final class PECVerifier  {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	Provider bcprov;
 	JcaSimpleSignerInfoVerifierBuilder verifier;
 	JcaX509CertificateConverter jcaX509CertificateConverter;
 
 	public PECVerifier() {
-		this.bcprov = Security.getProvider("BC");
+		this.bcprov = Security.getProvider(PecConstant.PROVIDER);
 		if (this.bcprov == null) {
 			this.bcprov = new BouncyCastleProvider();
 			Security.addProvider(bcprov);
@@ -135,20 +135,6 @@ public final class PECVerifier {
 				bodyMessage = extractBodyMessage(s.getContent());
 				signatures = verifySignature(s);
 
-//				if ((bodyMessage.getBodyTextHTML() != null)
-//						&& (bodyMessage.getBodyTextHTML().getInputStream() != null)) {
-//					final InputStream istream = bodyMessage.getBodyTextHTML()
-//							.getInputStream();
-//					IOUtils.copy(istream, contenuto);
-//				} else if ((bodyMessage.getBodyTextPlain() != null)
-//						&& (bodyMessage.getBodyTextPlain().getInputStream() != null)) {
-//					final InputStream istream = bodyMessage.getBodyTextPlain()
-//							.getInputStream();
-//
-//				 IOUtils.copy(istream, contenuto);
-//
-//				}
-
 				esito = true;
 
 			} else {
@@ -160,6 +146,7 @@ public final class PECVerifier {
 			return docVer;
 
 		} catch (Exception e) {
+			logger.error("pec verify mail",e);
 			final PECMessageInfos docVer = new PECMessageInfos(signatures,
 					document, bodyMessage, esito);
 			docVer.setException(e);
