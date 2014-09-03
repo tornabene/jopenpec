@@ -1,16 +1,18 @@
 package com.google.jopenpec;
 
 import java.io.FileInputStream;
-import java.security.cert.X509Certificate;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TestPKCS7 {
 
+	@Test
+	public void testOsk2() throws Exception {
+		FileInputStream postacert = new FileInputStream("mail/smime.p7s");
+	}
 	
 	
-
 	@Test
 	public void testOk2() throws Exception {
 		
@@ -20,16 +22,16 @@ public class TestPKCS7 {
 		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert );
 	 
 		Assert.assertEquals("PEC VALIDA", info.getEsito() , true);
-		
-		for (X509Certificate c : info.getSignatures() ) {
-			System.out.println("test2-------------" );
-			System.out.println(c.getIssuerDN() );
-		}
-		
-		System.out.println("info.getCertificate()-------------" +info.getCertificate());
-		System.out.println("info.getEsito()-------------" +info.getEsito() );
-		System.out.println("info.getSignatures()-------------" +info.getSignatures()  );
-		
+//		
+//		for (X509Certificate c : info.getSignatures() ) {
+//			System.out.println("test2-------------" );
+//			System.out.println(c.getIssuerDN() );
+//		}
+//		
+//		System.out.println("info.getCertificate()-------------" +info.getCertificate());
+//		System.out.println("info.getEsito()-------------" +info.getEsito() );
+//		System.out.println("info.getSignatures()-------------" +info.getSignatures()  );
+//		
 	}
 	
 	@Test
@@ -42,12 +44,10 @@ public class TestPKCS7 {
 	 
 		Assert.assertEquals("PEC VALIDA", info.getEsito() , true);
 		
-		for (X509Certificate c : info.getSignatures() ) {
+		for (CertificateInfo c : info.getCertificates() ) {
 			System.out.println("test2-------------" );
-			System.out.println(c.getIssuerDN() );
+			System.out.println(c );
 		}
-		
-		System.out.println("info.getCertificate()-------------" +info.getCertificate());
 		
 	}
 	
@@ -63,10 +63,9 @@ public class TestPKCS7 {
 		
 		
 			if( info.getEsito()){
-			for (X509Certificate c : info.getSignatures() ) {
+			for (CertificateInfo c : info.getCertificates()   ) {
 				System.out.println("test2-------------" );
-				System.out.println(c.getIssuerDN() );
-				System.out.println(c.getSubjectDN()   );
+				System.out.println(c );
 			}
 		}else
 			System.out.println( info.getException().getMessage() );

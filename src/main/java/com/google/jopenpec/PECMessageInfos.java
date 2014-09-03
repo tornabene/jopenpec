@@ -1,15 +1,14 @@
 package com.google.jopenpec;
 
-import java.security.cert.X509Certificate;
-import java.util.Set;
+import java.util.List;
 
 import org.w3c.dom.Document;
 
 public class PECMessageInfos {
-	private Set<X509Certificate> signatures;
-	private Document certificate;
+	private Document daticert;
 	private PECBodyParts bodyParts;
-	
+	List<CertificateInfo> certificates;
+	 
 	private Exception exception;
 	
 	public Exception getException() {
@@ -30,29 +29,29 @@ public class PECMessageInfos {
 
 	private Boolean esito;
 	
-	public PECMessageInfos(Set<X509Certificate> signatures, Document certificate,
+	public PECMessageInfos(List<CertificateInfo> certificates, Document daticert,
 			PECBodyParts bodyParts,Boolean esito) {
-		this.signatures = signatures;
-		this.certificate = certificate;
+		this.certificates = certificates;
+		this.daticert = daticert;
 		this.bodyParts = bodyParts;
 		this.esito = esito;
 
 	}
 
-	public Set<X509Certificate> getSignatures() {
-		return signatures;
+	public Document getDaticert() {
+		return daticert;
 	}
 
-	public void setSignatures(Set<X509Certificate> signatures) {
-		this.signatures = signatures;
+	public void setDaticert(Document daticert) {
+		this.daticert = daticert;
 	}
 
-	public Document getCertificate() {
-		return certificate;
+	public List<CertificateInfo> getCertificates() {
+		return certificates;
 	}
 
-	public void setCertificate(Document certificate) {
-		this.certificate = certificate;
+	public void setCertificates(List<CertificateInfo> certificates) {
+		this.certificates = certificates;
 	}
 
 	public PECBodyParts getBodyParts() {

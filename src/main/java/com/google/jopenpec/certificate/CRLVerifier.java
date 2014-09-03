@@ -97,10 +97,6 @@ public class CRLVerifier {
 			X509Certificate cert) throws CertificateParsingException, IOException {
 		byte[] crldpExt = cert.getExtensionValue(
 				X509Extensions.CRLDistributionPoints.getId());
-		if (crldpExt == null) {
-			List<String> emptyList = new ArrayList<String>();
-			return emptyList;
-		}
 		ASN1InputStream oAsnInStream = new ASN1InputStream(
 				new ByteArrayInputStream(crldpExt));
 		
@@ -115,6 +111,7 @@ public class CRLVerifier {
 		CRLDistPoint distPoint = CRLDistPoint.getInstance(derObj2);
 		List<String> crlUrls = new ArrayList<String>();
 		for (DistributionPoint dp : distPoint.getDistributionPoints()) {
+			System.out.println(dp);
             DistributionPointName dpn = dp.getDistributionPoint();
             // Look for URIs in fullName
             if (dpn != null) {
