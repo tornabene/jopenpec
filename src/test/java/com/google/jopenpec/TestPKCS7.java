@@ -19,7 +19,7 @@ public class TestPKCS7 {
 		FileInputStream postacert = new FileInputStream("mail/message-ok2.eml");
 		 
 		PECVerifier pecVerifier = new PECVerifier();
-		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert );
+		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert,123L,"testaccount" );
 	 
 		Assert.assertEquals("PEC VALIDA", info.getEsito() , true);
 //		
@@ -40,7 +40,7 @@ public class TestPKCS7 {
 		FileInputStream postacert = new FileInputStream("mail/message_ok.eml");
 		 
 		PECVerifier pecVerifier = new PECVerifier();
-		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert );
+		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert ,1234L,"testaccount" );
 	 
 		Assert.assertEquals("PEC VALIDA", info.getEsito() , true);
 		
@@ -58,7 +58,7 @@ public class TestPKCS7 {
 		FileInputStream postacert = new FileInputStream("mail/message_ko.eml");
 		 
 		PECVerifier pecVerifier = new PECVerifier();
-		PECMessageInfos info = pecVerifier.verifyAnalizePEC(postacert );
+		PECMessageInfos info = pecVerifier.verifyAnalizePEC(postacert ,1237L,"testaccount");
 		Assert.assertEquals("PEC NON VALIDA", info.getEsito() , false);
 		
 		

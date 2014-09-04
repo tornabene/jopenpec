@@ -1,5 +1,8 @@
 package com.google.jopenpec;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Provider;
@@ -26,6 +29,8 @@ import javax.mail.internet.MimeMultipart;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.mail.util.MimeMessageParser;
 import org.apache.xml.security.Init;
 import org.bouncycastle.cert.AttributeCertificateHolder;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -108,7 +113,6 @@ public final class PECVerifier {
 		for (X509CertificateHolder certholder2 : holdersd) {
 			X509Certificate c2 = jcaX509CertificateConverter
 					.getCertificate(certholder2);
-			printCert(c2);
 			CertificateInfo parent = new CertificateInfo();
 			adattaCertificate(c2, parent);
 			certRecursive(chains, store1, certholder2 );
@@ -116,21 +120,6 @@ public final class PECVerifier {
 		}
 	}
 
-	private void printCert(X509Certificate c) {
-//		System.out.println("----------------------------------------");
-//		System.out.println("\tCertificate for: " + c.getSubjectDN());
-//		System.out.println("\tCertificate issued by: " + c.getIssuerDN());
-//		System.out.println("\tThe certificate is valid from "
-//				+ c.getNotBefore() + " to " + c.getNotAfter());
-//		System.out.println("\tCertificate SN# " + c.getSerialNumber());
-//		System.out.println("\tGenerated with " + c.getSigAlgName());
-//		System.out.println(c.getPublicKey());
-//
-//		System.out.println("	cert.getSubjectX500Principal() :"
-//				+ c.getSubjectX500Principal());
-//		System.out.println("	cert.getIssuerX500Principal() :"
-//				+ c.getIssuerX500Principal());
-	}
 
 	private List<CertificateInfo> verifySignature(final SMIMESignedParser parser)
 			throws Exception {
@@ -143,10 +132,6 @@ public final class PECVerifier {
 		verify(parser, certificates, stores);
 
 		List<CertificateInfo> certs = certificateChains(parser);
-		for (CertificateInfo certificateInfo : certs) {
-			System.out.println("cert:" + certificateInfo);
-		}
-
 		return certs;
 	}
 
@@ -198,15 +183,14 @@ public final class PECVerifier {
 		}
 	}
 
-	private void debugPring(SignerInformation castingSignerInformation2) {
-	}
+ 
 
-	public PECMessageInfos verifyAnalizePEC(final InputStream imailstream) {
+	public PECMessageInfos verifyAnalizePEC(final InputStream imailstream, long uid, String account) {
 
 		final Properties props = System.getProperties();
 		final Session session = Session.getDefaultInstance(props, null);
 		Document datiCert = null;
-		PECBodyParts bodyMessage = null;
+		PECMail pecMail = null;
 		Boolean esito = false;
 		List<CertificateInfo> certificateInfo = null;
 		try {
@@ -220,7 +204,9 @@ public final class PECVerifier {
 						(MimeMultipart) msg.getContent());
 
 				datiCert = extractDatiCertXML(s);
-				bodyMessage = extractBodyMessage(s.getContent());
+				
+				pecMail = extractPecMail(   msg , uid , account );
+				
 				certificateInfo = verifySignature(s);
 
 				esito = true;
@@ -230,29 +216,220 @@ public final class PECVerifier {
 			}
 
 			final PECMessageInfos docVer = new PECMessageInfos(certificateInfo,
-					datiCert, bodyMessage, esito);
+					datiCert, pecMail, esito);
 			return docVer;
 
 		} catch (Exception e) {
 			logger.error("pec verify mail", e);
 			final PECMessageInfos docVer = new PECMessageInfos(certificateInfo,
-					datiCert, bodyMessage, esito);
+					datiCert, pecMail, esito);
 			docVer.setException(e);
 			return docVer;
 		}
 
 	}
 
-	private PECBodyParts extractBodyMessage(final MimeBodyPart mimePart)
-			throws Exception {
-		final PECBodyParts bodyPartPieces = new PECBodyParts();
-		final DataHandler data = mimePart.getDataHandler();
-		final MimeMultipart multiPart = (MimeMultipart) data.getContent();
-		for (int i = 0; i < multiPart.getCount(); i++) {
-			final BodyPart bodyPiece = multiPart.getBodyPart(i);
-			bodyPartPieces.putBodyPart(bodyPiece);
+	private static final String dirBase="extractedpec"+File.separator;
+	
+	public static void bodyPecWithAttachment(InputStream imailstream,  PECMail mail) throws Exception {
+		File attachmentDir = new File( dirBase + mail.getUid() +File.separator +PecConstant.POSTACERTDIR+ File.separator);
+		attachmentDir.mkdirs();
+		final Properties props = System.getProperties();
+		final Session session = Session.getDefaultInstance(props, null);
+		final MimeMessage msg = new MimeMessage(session, imailstream);
+		
+		MimeMessageParser parser = new MimeMessageParser(msg);
+		parser.parse();
+		mail.setHasAttachments(parser.hasAttachments());
+		if (parser.hasAttachments()) {
+			for (DataSource data : parser.getAttachmentList()) {
+				File attachment = new File( attachmentDir.getAbsolutePath() +"/" + data.getName() );
+				FileOutputStream output = new FileOutputStream(attachment);
+				IOUtils.copy(data.getInputStream(), output);
+				output.close();
+				mail.getAttachments().add(attachment);
+			}
 		}
-		return bodyPartPieces;
+
+		if (parser.getHtmlContent() != null) {
+			mail.setBodyType("html");
+			mail.setBody(parser.getHtmlContent());
+		} else {
+			mail.setBodyType("text");
+			mail.setBody(parser.getPlainContent());
+		}
+	}
+	
+	private PECMail  extractPecMail(MimeMessage message, long uid, String account) throws Exception {
+	
+		final PECMail pecMail = new PECMail();
+		String uidPecDir = account +File.separator + uid;
+		pecMail.setUid( uidPecDir);
+		
+		File attachmentDir = new File(dirBase + uidPecDir   );
+		attachmentDir.mkdirs();
+		MimeMessageParser parser = new MimeMessageParser(message);
+		parser.parse();
+		if (parser.hasAttachments()) {
+			
+			for (DataSource data : parser.getAttachmentList()) {
+				if(PecConstant.POSTACERT.equals( data.getName() ) ){
+					File postacert = new File( attachmentDir.getAbsolutePath() +"/" + data.getName() );
+					FileOutputStream output = new FileOutputStream(postacert);
+					IOUtils.copy(data.getInputStream(), output);
+					IOUtils.closeQuietly( output );
+					
+					FileInputStream imailstream = new FileInputStream( postacert );
+					bodyPecWithAttachment(imailstream, pecMail);
+					
+					
+				}
+				
+				
+				
+			}
+		}
+		
+		
+		
+		if (parser.getHtmlContent() != null) {
+			pecMail.setBodyType("html");
+			pecMail.setBody(parser.getHtmlContent());
+		} else {
+			pecMail.setBodyType("text");
+			pecMail.setBody(parser.getPlainContent());
+		}
+		
+//
+//		try {
+//			count = multipart.getCount();
+//
+//
+//		} catch (MessagingException e) {
+//			throw new IllegalStateException(
+//					"Error while retrieving the number of enclosed BodyPart objects.",
+//					e);
+//		}
+//
+//		for (int i = 0; i < count; i++) {
+//
+//			final BodyPart bp;
+//
+//			try {
+//				bp = multipart.getBodyPart(i);
+//			} catch (MessagingException e) {
+//				throw new IllegalStateException(
+//						"Error while retrieving body part.", e);
+//			}
+//
+//			final String contentType;
+//			String filename;
+//			final String disposition;
+//			final String subject;
+//
+//			try {
+//
+//				contentType = bp.getContentType();
+//				filename = bp.getFileName();
+//				disposition = bp.getDisposition();
+//				subject = mailMessage.getSubject();
+//
+//				if (filename == null && bp instanceof MimeBodyPart) {
+//					filename = ((MimeBodyPart) bp).getContentID();
+//				}
+//
+//			} catch (MessagingException e) {
+//				throw new IllegalStateException(
+//						"Unable to retrieve body part meta data.", e);
+//			}
+//
+//			if (LOGGER.isInfoEnabled()) {
+//				LOGGER.info(String
+//						.format("BodyPart - Content Type: '%s', filename: '%s', disposition: '%s', subject: '%s'",
+//								new Object[] { contentType, filename,
+//										disposition, subject }));
+//			}
+//
+//			if (Part.ATTACHMENT.equalsIgnoreCase(disposition)) {
+//				LOGGER.info(String.format(
+//						"Handdling attachment '%s', type: '%s'", filename,
+//						contentType));
+//			}
+//
+//			final Object content;
+//
+//			try {
+//				content = bp.getContent();
+//			} catch (IOException e) {
+//				throw new IllegalStateException(
+//						"Error while retrieving the email contents.", e);
+//			} catch (MessagingException e) {
+//				throw new IllegalStateException(
+//						"Error while retrieving the email contents.", e);
+//			}
+//
+//			if (content instanceof String) {
+//
+//				if (Part.ATTACHMENT.equalsIgnoreCase(disposition)) {
+//					emailFragments.add(new EmailFragment(directory, i + "-"
+//							+ filename, content));
+//					LOGGER.info(String.format(
+//							"Handdling attachment '%s', type: '%s'", filename,
+//							contentType));
+//				} else {
+//
+//					final String textFilename;
+//					final ContentType ct;
+//
+//					try {
+//						ct = new ContentType(contentType);
+//					} catch (ParseException e) {
+//						throw new IllegalStateException(
+//								"Error while parsing content type '"
+//										+ contentType + "'.", e);
+//					}
+//
+//					if ("text/plain".equalsIgnoreCase(ct.getBaseType())) {
+//						textFilename = "message.txt";
+//					} else if ("text/html".equalsIgnoreCase(ct.getBaseType())) {
+//						textFilename = "message.html";
+//					} else {
+//						textFilename = "message.other";
+//					}
+//
+//					emailFragments.add(new EmailFragment(directory,
+//							textFilename, content ));
+//				}
+//
+//			} else if (content instanceof InputStream) {
+//
+//				final InputStream inputStream = (InputStream) content;
+//				final ByteArrayOutputStream bis = new ByteArrayOutputStream();
+//
+//				try {
+//					IOUtils.copy(inputStream, bis);
+//				} catch (IOException e) {
+//					throw new IllegalStateException(
+//							"Error while copying input stream to the ByteArrayOutputStream.",
+//							e);
+//				}
+//
+//				emailFragments.add(new EmailFragment(directory, filename, bis
+//						.toByteArray() ));
+//
+//			} else if (content instanceof javax.mail.Message) {
+//				handleMessage(directory, (javax.mail.Message) content,
+//						emailFragments);
+//			} else if (content instanceof Multipart) {
+//				final Multipart mp2 = (Multipart) content;
+//				handleMultipart(directory, mp2, mailMessage, emailFragments );
+//			} else {
+//				throw new IllegalStateException("Content type not handled: "
+//						+ content.getClass().getSimpleName());
+//			}
+			
+		
+		return pecMail;
 	}
 
 	private Document extractDatiCertXML(final SMIMESignedParser s)

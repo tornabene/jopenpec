@@ -6,7 +6,7 @@ import org.w3c.dom.Document;
 
 public class PECMessageInfos {
 	private Document daticert;
-	private PECBodyParts bodyParts;
+	private PECMail pecMail;
 	List<CertificateInfo> certificates;
 	 
 	private Exception exception;
@@ -30,10 +30,10 @@ public class PECMessageInfos {
 	private Boolean esito;
 	
 	public PECMessageInfos(List<CertificateInfo> certificates, Document daticert,
-			PECBodyParts bodyParts,Boolean esito) {
+			PECMail pecMail,Boolean esito) {
 		this.certificates = certificates;
 		this.daticert = daticert;
-		this.bodyParts = bodyParts;
+		this.pecMail = pecMail;
 		this.esito = esito;
 
 	}
@@ -42,24 +42,14 @@ public class PECMessageInfos {
 		return daticert;
 	}
 
-	public void setDaticert(Document daticert) {
-		this.daticert = daticert;
-	}
 
 	public List<CertificateInfo> getCertificates() {
 		return certificates;
 	}
 
-	public void setCertificates(List<CertificateInfo> certificates) {
-		this.certificates = certificates;
-	}
-
-	public PECBodyParts getBodyParts() {
-		return bodyParts;
-	}
-
-	public void setBodyParts(PECBodyParts bodyParts) {
-		this.bodyParts = bodyParts;
-	}
+ 
+  public PECMail getPecMail() {
+	return pecMail;
+}
 
 }
