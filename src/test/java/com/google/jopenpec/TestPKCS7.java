@@ -28,9 +28,13 @@ public class TestPKCS7 {
 //			System.out.println(c.getIssuerDN() );
 //		}
 //		
-//		System.out.println("info.getCertificate()-------------" +info.getCertificate());
-//		System.out.println("info.getEsito()-------------" +info.getEsito() );
-//		System.out.println("info.getSignatures()-------------" +info.getSignatures()  );
+		System.out.println("info.getCertificate()-------------" +info.getCertificates() );
+		System.out.println("info.getEsito()-------------" +info.getEsito() );
+		System.out.println("info.getSignatures()-------------" +info.getDaticert()   );
+		
+		System.out.println("info.getPecMail().getBody() -------------" +info.getPecMail().getBody()  );
+			
+		
 //		
 	}
 	
