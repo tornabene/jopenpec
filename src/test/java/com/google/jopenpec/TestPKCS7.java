@@ -1,5 +1,6 @@
 package com.google.jopenpec;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 import org.junit.Assert;
@@ -19,7 +20,7 @@ public class TestPKCS7 {
 		FileInputStream postacert = new FileInputStream("mail/message-ok2.eml");
 		 
 		PECVerifier pecVerifier = new PECVerifier();
-		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert,123L,"testaccount" );
+		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert, new File ("testaccount/123")  );
 	 
 		Assert.assertEquals("PEC VALIDA", info.getEsito() , true);
 //		
@@ -44,7 +45,7 @@ public class TestPKCS7 {
 		FileInputStream postacert = new FileInputStream("mail/message_ok.eml");
 		 
 		PECVerifier pecVerifier = new PECVerifier();
-		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert ,1234L,"testaccount" );
+		PECMessageInfos info = pecVerifier.verifyAnalizePEC( postacert , new File ("testaccount/1234"));
 	 
 		Assert.assertEquals("PEC VALIDA", info.getEsito() , true);
 		
@@ -62,7 +63,7 @@ public class TestPKCS7 {
 		FileInputStream postacert = new FileInputStream("mail/message_ko.eml");
 		 
 		PECVerifier pecVerifier = new PECVerifier();
-		PECMessageInfos info = pecVerifier.verifyAnalizePEC(postacert ,1237L,"testaccount");
+		PECMessageInfos info = pecVerifier.verifyAnalizePEC(postacert ,new File ("testaccount/1236"));
 		Assert.assertEquals("PEC NON VALIDA", info.getEsito() , false);
 		
 		

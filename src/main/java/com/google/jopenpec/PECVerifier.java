@@ -185,7 +185,7 @@ public final class PECVerifier {
 
  
 
-	public PECMessageInfos verifyAnalizePEC(final InputStream imailstream, long uid, String account) {
+	public PECMessageInfos verifyAnalizePEC(final InputStream imailstream, File attachmentDir) {
 
 		final Properties props = System.getProperties();
 		final Session session = Session.getDefaultInstance(props, null);
@@ -205,7 +205,7 @@ public final class PECVerifier {
 
 				datiCert = extractDatiCertXML(s);
 				
-				pecMail = extractPecMail(   msg , uid , account );
+				pecMail = extractPecMail(   msg ,   attachmentDir );
 				
 				certificateInfo = verifySignature(s);
 
@@ -260,21 +260,21 @@ public final class PECVerifier {
 		}
 	}
 	
-	private PECMail  extractPecMail(MimeMessage message, long uid, String account) throws Exception {
+	private PECMail  extractPecMail(MimeMessage message,File attachmentDirParent ) throws Exception {
 	
 		final PECMail pecMail = new PECMail();
-		String uidPecDir = account +File.separator + uid;
-		pecMail.setUid( uidPecDir);
 		
-		File attachmentDir = new File(dirBase + uidPecDir   );
-		attachmentDir.mkdirs();
+		String f = attachmentDirParent.getAbsolutePath()+ File.separator + PecConstant.POSTACERTDIR;
+		File attachmentPecDir = new File(f);
+		attachmentPecDir.mkdirs();
+		
 		MimeMessageParser parser = new MimeMessageParser(message);
 		parser.parse();
 		if (parser.hasAttachments()) {
 			
 			for (DataSource data : parser.getAttachmentList()) {
 				if(PecConstant.POSTACERT.equals( data.getName() ) ){
-					File postacert = new File( attachmentDir.getAbsolutePath() +"/" + data.getName() );
+					File postacert = new File( attachmentPecDir.getAbsolutePath() +"/" + data.getName() );
 					FileOutputStream output = new FileOutputStream(postacert);
 					IOUtils.copy(data.getInputStream(), output);
 					IOUtils.closeQuietly( output );
