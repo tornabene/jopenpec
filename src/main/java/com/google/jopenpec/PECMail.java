@@ -1,6 +1,5 @@
 package com.google.jopenpec;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +17,9 @@ public class PECMail implements Serializable {
 	private Boolean hasAttachments;
 	private String bodyType;
 	private String body;
-	private List<File> attachments = new ArrayList<File>();
+	private List<FileInfo> attachments = new ArrayList<FileInfo>();
 	
-	public final List<File> getAttachments() {
+	public final List<FileInfo> getAttachments() {
 		return this.attachments;
 	}
 
@@ -48,7 +47,7 @@ public class PECMail implements Serializable {
 		this.body = body;
 	}
 
-	public void setAttachments(List<File> attachments) {
+	public void setAttachments(List<FileInfo> attachments) {
 		this.attachments = attachments;
 	}
 

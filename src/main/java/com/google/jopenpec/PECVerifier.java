@@ -229,11 +229,13 @@ public final class PECVerifier {
 
 	}
 
-	private static final String dirBase="extractedpec"+File.separator;
+	private static final String relativePath = File.separator +PecConstant.POSTACERTDIR+ File.separator;
 	
-	public static void bodyPecWithAttachment(InputStream imailstream,  PECMail mail) throws Exception {
-		File attachmentDir = new File( dirBase + mail.getUid() +File.separator +PecConstant.POSTACERTDIR+ File.separator);
+	public static void bodyPecWithAttachment(InputStream imailstream,  PECMail mail,File attachmentPecDir) throws Exception {
+		
+		File attachmentDir = new File( attachmentPecDir.getAbsolutePath() + relativePath );
 		attachmentDir.mkdirs();
+		
 		final Properties props = System.getProperties();
 		final Session session = Session.getDefaultInstance(props, null);
 		final MimeMessage msg = new MimeMessage(session, imailstream);
@@ -243,11 +245,16 @@ public final class PECVerifier {
 		mail.setHasAttachments(parser.hasAttachments());
 		if (parser.hasAttachments()) {
 			for (DataSource data : parser.getAttachmentList()) {
-				File attachment = new File( attachmentDir.getAbsolutePath() +"/" + data.getName() );
+				String nameRelativeFile = relativePath  +data.getName();
+				File attachment = new File( attachmentPecDir.getAbsolutePath() + nameRelativeFile  );
 				FileOutputStream output = new FileOutputStream(attachment);
+
 				IOUtils.copy(data.getInputStream(), output);
-				output.close();
-				mail.getAttachments().add(attachment);
+				IOUtils.closeQuietly(data.getInputStream());
+				IOUtils.closeQuietly(output);
+				
+				FileInfo fileInfo = new FileInfo(attachment,nameRelativeFile);
+				mail.getAttachments().add(fileInfo);
 			}
 		}
 
@@ -280,7 +287,7 @@ public final class PECVerifier {
 					IOUtils.closeQuietly( output );
 					
 					FileInputStream imailstream = new FileInputStream( postacert );
-					bodyPecWithAttachment(imailstream, pecMail);
+					bodyPecWithAttachment(imailstream, pecMail, attachmentPecDir);
 					
 					
 				}
