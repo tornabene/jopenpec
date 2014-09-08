@@ -271,7 +271,7 @@ public final class PECVerifier {
 	
 		final PECMail pecMail = new PECMail();
 		
-		String f = attachmentDirParent.getAbsolutePath()+ File.separator + PecConstant.POSTACERTDIR;
+		String f = attachmentDirParent.getAbsolutePath();
 		File attachmentPecDir = new File(f);
 		attachmentPecDir.mkdirs();
 		

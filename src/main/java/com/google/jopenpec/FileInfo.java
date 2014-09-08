@@ -2,11 +2,12 @@ package com.google.jopenpec;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.URI;
 
 public class FileInfo implements  Serializable{
 	private File file;
 	private String name;
-	private String url;
+	private URI url;
 	
 	public FileInfo(File attachment,String name) {
 		this.file = attachment;
@@ -25,10 +26,10 @@ public class FileInfo implements  Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUrl() {
+	public URI getUrl() {
 		return url;
 	}
-	public void setUrl(String url) {
+	public void setUrl(URI url) {
 		this.url = url;
 	}
 	@Override
