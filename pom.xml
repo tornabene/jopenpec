@@ -100,6 +100,25 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
+			
+			
+			 <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jaxb2-maven-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>xjc</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <packageName>org.openpec.domain</packageName>
+                <verbose>false</verbose>
+            </configuration>
+        </plugin>
+        
 		</plugins>
 	</build>
 	<repositories>

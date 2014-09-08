@@ -3,17 +3,43 @@ package com.google.jopenpec;
 import java.io.File;
 import java.io.FileInputStream;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.openpec.domain.Postacert;
 
 public class TestPKCS7 {
 
 	@Test
 	public void testOsk2() throws Exception {
 		FileInputStream postacert = new FileInputStream("mail/smime.p7s");
+ 
+		
 	}
 	
 	
+
+	
+	@Test
+	public void testdaticert() throws Exception {
+		
+		FileInputStream daticert = new FileInputStream("mail/daticert.xml");
+		 
+		JAXBContext jaxbContext = JAXBContext.newInstance(Postacert.class);
+		 
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		Postacert postacert = (Postacert) jaxbUnmarshaller.unmarshal(daticert);
+	
+		System.out.println("postacert.getIntestazione().getMittente():"+postacert.getIntestazione().getMittente());
+		System.out.println("postacert.getIntestazione().getOggetto():"+postacert.getIntestazione().getOggetto() );
+			
+		Assert.assertEquals("PEC getMittente", postacert.getIntestazione().getMittente() , "tindaro.tornabene@pec.it");
+	}
 	@Test
 	public void testOk2() throws Exception {
 		
@@ -36,7 +62,6 @@ public class TestPKCS7 {
 		System.out.println("info.getPecMail().getBody() -------------" +info.getPecMail().getBody()  );
 			
 		
-//		
 	}
 	
 	@Test

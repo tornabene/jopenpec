@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="consegna" type="xs:string"/>
+	<xs:element name="data">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="giorno"/>
+				<xs:element ref="ora"/>
+			</xs:sequence>
+			<xs:attribute name="zona" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dati">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="gestore-emittente"/>
+				<xs:element ref="data"/>
+				<xs:element ref="identificativo"/>
+				<xs:element ref="consegna" minOccurs="0"/>
+				<xs:element ref="ricezione" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="errore-esteso" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="destinatari">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="tipo" default="certificato">
+						<xs:simpleType>
+							<xs:restriction base="xs:NMTOKEN">
+								<xs:enumeration value="certificato"/>
+								<xs:enumeration value="esterno"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="errore-esteso" type="xs:string"/>
+	<xs:element name="gestore-emittente" type="xs:string"/>
+	<xs:element name="giorno" type="xs:string"/>
+	<xs:element name="identificativo" type="xs:string"/>
+	<xs:element name="intestazione">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="mittente"/>
+				<xs:element ref="destinatari" maxOccurs="unbounded"/>
+				<xs:element ref="risposte"/>
+				<xs:element ref="oggetto" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="mittente" type="xs:string"/>
+	<xs:element name="oggetto" type="xs:string"/>
+	<xs:element name="ora" type="xs:string"/>
+	<xs:element name="postacert">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="intestazione"/>
+				<xs:element ref="dati"/>
+			</xs:sequence>
+			<xs:attribute name="tipo" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="accettazione"/>
+						<xs:enumeration value="presa-in-carico"/>
+						<xs:enumeration value="avvenuta-consegna"/>
+						<xs:enumeration value="posta-certificata"/>
+						<xs:enumeration value="errore-consegna"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="errore" default="nessuno">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="nessuno"/>
+						<xs:enumeration value="no-dest"/>
+						<xs:enumeration value="no-dominio"/>
+						<xs:enumeration value="altro"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ricezione" type="xs:string"/>
+	<xs:element name="risposte" type="xs:string"/>
+</xs:schema>
