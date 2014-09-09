@@ -26,6 +26,8 @@ import javax.mail.Session;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -47,6 +49,7 @@ import org.bouncycastle.operator.DigestCalculatorProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.bc.BcDigestCalculatorProvider;
 import org.bouncycastle.util.Store;
+import org.openpec.domain.Postacert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -215,14 +218,24 @@ public final class PECVerifier {
 				throw new Exception("NO Pec [" + msg.getContentType() + "]");
 			}
 
+			JAXBContext jaxbContext = JAXBContext.newInstance(Postacert.class);
+			Unmarshaller jaxbUnmarshaller;
+		
+			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			Postacert postacert = (Postacert) jaxbUnmarshaller.unmarshal(  datiCert );
+		
 			final PECMessageInfos docVer = new PECMessageInfos(certificateInfo,
-					datiCert, pecMail, esito);
+					datiCert, pecMail, esito,postacert);
+			
+			
+			
 			return docVer;
 
 		} catch (Exception e) {
 			logger.error("pec verify mail", e);
+			
 			final PECMessageInfos docVer = new PECMessageInfos(certificateInfo,
-					datiCert, pecMail, esito);
+					datiCert, pecMail, esito,null);
 			docVer.setException(e);
 			return docVer;
 		}

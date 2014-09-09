@@ -60,6 +60,7 @@ public class TestPKCS7 {
 		System.out.println("info.getSignatures()-------------" +info.getDaticert()   );
 		
 		System.out.println("info.getPecMail().getBody() -------------" +info.getPecMail().getBody()  );
+		System.out.println("info.getPecMail().getPostacert() -------------" +info.getPostacert()  );
 			
 		
 	}

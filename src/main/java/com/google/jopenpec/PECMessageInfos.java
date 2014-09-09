@@ -2,13 +2,14 @@ package com.google.jopenpec;
 
 import java.util.List;
 
+import org.openpec.domain.Postacert;
 import org.w3c.dom.Document;
 
 public class PECMessageInfos {
 	private Document daticert;
 	private PECMail pecMail;
 	List<CertificateInfo> certificates;
-	 
+	private Postacert postacert;
 	private Exception exception;
 	
 	public Exception getException() {
@@ -30,11 +31,12 @@ public class PECMessageInfos {
 	private Boolean esito;
 	
 	public PECMessageInfos(List<CertificateInfo> certificates, Document daticert,
-			PECMail pecMail,Boolean esito) {
+			PECMail pecMail,Boolean esito,Postacert postacert) {
 		this.certificates = certificates;
 		this.daticert = daticert;
 		this.pecMail = pecMail;
 		this.esito = esito;
+		this.postacert = postacert;
 
 	}
 
@@ -50,6 +52,10 @@ public class PECMessageInfos {
  
   public PECMail getPecMail() {
 	return pecMail;
+}
+
+ public Postacert getPostacert() {
+	return postacert;
 }
 
 }
