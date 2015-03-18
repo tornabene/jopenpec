@@ -232,7 +232,6 @@ public final class PECVerifier {
 			return docVer;
 
 		} catch (Exception e) {
-			logger.error("pec verify mail", e);
 			
 			final PECMessageInfos docVer = new PECMessageInfos(certificateInfo,
 					datiCert, pecMail, esito,null);

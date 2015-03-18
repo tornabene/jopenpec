@@ -11,18 +11,21 @@
 		<developerConnection>https://github.com/tornabene/jopenpec.git</developerConnection>
 		<url>https://github.com/tornabene/jopenpec </url>
 	</scm>
-	<distributionManagement>
-		<repository>
+		<distributionManagement>
+	 	<repository>
 			<id>deployment</id>
-			<name>Ipublic</name>
-			<url>http://git.ipublic.it:8081/nexus/content/repositories/ipublic/releases/</url>
+			<name>ipublic</name>
+			<url>http://git.ipublic.it:8081/nexus/content/repositories/ipublic/</url>
 		</repository>
+	 
 		<snapshotRepository>
 			<id>deployment</id>
-			<name>Ipublic</name>
-			<url>http://git.ipublic.it:8081/nexus/content/repositories/ipublic/snapshots/</url>
+			<name>ipublicsnapshots</name>
+			<url>http://git.ipublic.it:8081/nexus/content/repositories/ipublicsnapshots/</url>
 		</snapshotRepository>
+		
 	</distributionManagement>
+	
 
 
 	<dependencies>
