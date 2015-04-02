@@ -109,8 +109,10 @@ public final class PECVerifier {
 	private void certRecursive( List<CertificateInfo> chains ,
 			Store store1, X509CertificateHolder certholder )
 			throws CertificateException {
+		
 		AttributeCertificateHolder selec = new AttributeCertificateHolder(
 				certholder.getIssuer());
+		
 		Collection<X509CertificateHolder> holdersd = store1.getMatches(selec);
 
 		for (X509CertificateHolder certholder2 : holdersd) {
@@ -121,6 +123,7 @@ public final class PECVerifier {
 			certRecursive(chains, store1, certholder2 );
 			chains.add(parent);
 		}
+		
 	}
 
 
